@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="メルカリ・ラクマ・Yahoo!フリマ・ヤフオク・BOOTH・BASE・minne・Creemaの販売手数料と手取りを、登録不要で比較する無料の計算ツール。計算はこの端末の中だけで行います。">
+  <meta name="robots" content="index,follow">
+  <title>手取り計算｜フリマ・ハンドメイド・BOOTH — SANTA</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div>
+        <p class="brand">SANTA</p>
+        <h1>手取り計算</h1>
+        <p class="lede">
+          販売価格を入れると、8サービスの手数料と手取りを一度に比べます。
+          登録は不要です。入力した数字はこの端末の中だけで計算し、どこにも送りません。
+        </p>
+      </div>
+      <div class="meta">
+        <span class="pill" id="checked">料率の確認日</span>
+        <span class="pill">通信なし・オフライン可</span>
+        <span class="pill">無料</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <form class="panel" id="inputs" onsubmit="return false;">
+        <h2>条件</h2>
+        <label class="field">
+          <span>販売価格（円）</span>
+          <input id="salePrice" name="salePrice" type="number" min="0" step="1" value="3000" inputmode="numeric">
+        </label>
+        <div class="presets" aria-label="よく使う価格">
+          <button type="button" data-preset="500">¥500</button>
+          <button type="button" data-preset="1000">¥1,000</button>
+          <button type="button" data-preset="1980">¥1,980</button>
+          <button type="button" data-preset="3000">¥3,000</button>
+          <button type="button" data-preset="10000">¥10,000</button>
+        </div>
+        <label class="field">
+          <span>購入者が別に払う送料（円）</span>
+          <input id="buyerShipping" name="buyerShipping" type="number" min="0" step="1" value="0" inputmode="numeric">
+        </label>
+        <p class="hint">送料込みの出品や、Yahoo!フリマのように出品者が送料を負担する場合は 0 のままにしてください。minne・Creema・BASE・BOOTH（発送）では、この送料も手数料の対象に含めます。</p>
+        <label class="field">
+          <span>自分で負担する送料・梱包（円）</span>
+          <input id="sellerShipping" name="sellerShipping" type="number" min="0" step="1" value="0" inputmode="numeric">
+        </label>
+        <label class="field">
+          <span>仕入・材料費（円）</span>
+          <input id="cogs" name="cogs" type="number" min="0" step="1" value="0" inputmode="numeric">
+        </label>
+        <label class="field">
+          <span>ラクマの今月の料率</span>
+          <select id="rakumaRate" name="rakumaRate"></select>
+        </label>
+        <p class="hint">マイページの「販売手数料」で、いま適用されている率を確認してください。</p>
+        <p class="hint" style="margin:12px 0 6px;color:var(--gold-dim);letter-spacing:.12em;font-size:11px;">BOOTHの種類</p>
+        <div class="seg" role="group" aria-label="BOOTHの種類">
+          <button type="button" data-mode="download" aria-pressed="true">ダウンロード商品</button>
+          <button type="button" data-mode="ship">自宅から発送</button>
+        </div>
+        <p class="hint">振込手数料は含めていません。まとめて振り込むほど、手取りに対する割合は小さくなります。</p>
+      </form>
+
+      <div>
+        <div class="summary">
+          <div class="stat">
+            <div class="k">手取りが最大</div>
+            <div class="v" id="bestTake">—</div>
+            <div class="s" id="bestName">—</div>
+          </div>
+          <div class="stat">
+            <div class="k">手数料が最小</div>
+            <div class="v" id="lowFeeVal">—</div>
+            <div class="s" id="lowFeeName">—</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" aria-selected="true" data-pane="pane-compare">比較</button>
+            <button type="button" role="tab" aria-selected="false" data-pane="pane-inverse">逆算</button>
+            <button type="button" role="tab" aria-selected="false" data-pane="pane-table">早見表</button>
+          </div>
+
+          <div class="pane" id="pane-compare">
+            <table>
+              <thead>
+                <tr>
+                  <th>サービス</th>
+                  <th>手数料</th>
+                  <th>実質率</th>
+                  <th>手取り</th>
+                </tr>
+              </thead>
+              <tbody id="resultBody"></tbody>
+            </table>
+            <p class="hint" style="margin-top:12px;">手取り ＝ 販売価格 ＋ 購入者送料 − 手数料 − 自己負担の送料・梱包 − 仕入・材料費。売れやすさや購入者の人数は見ていません。</p>
+          </div>
+
+          <div class="pane" id="pane-inverse" hidden>
+            <div class="lookup">
+              <label class="field">
+                <span>希望する手取り（円）</span>
+                <input id="targetTake" type="number" min="0" step="1" value="2000" inputmode="numeric">
+              </label>
+              <label class="field">
+                <span>サービス</span>
+                <select id="inverseService"></select>
+              </label>
+              <button type="button" class="ghost" id="useResultAsPrice">この価格で比較する</button>
+            </div>
+            <p id="inverseOut" class="hint"></p>
+          </div>
+
+          <div class="pane" id="pane-table" hidden>
+            <p class="hint">左の送料・仕入・ラクマの料率・BOOTHの種類を反映した、価格帯ごとの手数料と手取りです。購入者送料は 0 としています。</p>
+            <div style="overflow:auto;">
+              <table id="snapTable"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="notes">
+      <div class="shop">
+        <strong>同じ計算を、あとから振り返りたいとき</strong>
+        <p>
+          出品のたびに計算するだけでなく、売れた記録を残したい人向けに、
+          SANTAショップで無料の管理シートも配っています。
+          お金はかかりません。
+        </p>
+        <ul>
+          <li><a href="https://santa-shop.booth.pm/items/9180863" target="_blank" rel="noopener noreferrer">フリマ在庫・利益管理シート（無料LITE版）</a></li>
+          <li><a href="https://santa-shop.booth.pm/items/9180855" target="_blank" rel="noopener noreferrer">副業の売上・手数料 管理シート（無料LITE版）</a></li>
+          <li><a href="https://santa-shop.booth.pm/items/9181046" target="_blank" rel="noopener noreferrer">同人イベント収支・手数料早見表（無料版）</a></li>
+        </ul>
+        <p><a href="https://santa-shop.booth.pm/" target="_blank" rel="noopener noreferrer">SANTAショップ（BOOTH）</a></p>
+        <p class="unlinked">広告・アフィリエイト: 未接続。紹介リンクはまだ置いていません。</p>
+      </div>
+
+      <h2>免責とプライバシー</h2>
+      <ul>
+        <li>このページは公式の計算ツールではありません。手数料は改定されることがあります。出品・配送の前に、各サービスの公式ページと取引画面で必ず確認してください。</li>
+        <li>Yahoo!フリマの端数処理、BASE・Creema・メルカリ・ヤフオク・ラクマの端数処理は、公式ヘルプに計算手順が書かれていないものがあります。その場合はページ下部の出典に書いた前提で計算しています。数円ずれることがあります。</li>
+        <li>振込手数料、お急ぎ振込、キャンペーン、カテゴリ別の例外、月額プラン、ポイント利用は含めていません。</li>
+        <li>入力した数字はブラウザのメモリ上だけで使い、サーバーへは送りません。アクセス解析も入れていません。</li>
+        <li>運営: SANTA。販売や広告を始めるときは、特定商取引法に基づく表記をこのページにも追加します。氏名・住所・電話番号は、請求があれば遅滞なく開示します。</li>
+      </ul>
+
+      <h2>出典（確認日 2026-11-19 JST）</h2>
+      <ul class="sources" id="sources"></ul>
+    </footer>
+  </div>
+  <script src="js/bundle.js" defer></script>
+</body>
+</html>
