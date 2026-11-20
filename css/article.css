@@ -1,0 +1,175 @@
+/* Article pages. Loaded after styles.css so the shared palette stays in one place. */
+
+.article-wrap {
+  max-width: 760px;
+}
+
+.article-wrap .hero {
+  display: block;
+}
+
+.crumb {
+  margin: 0 0 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.article-wrap h1 {
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+.checked {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: var(--gold-dim);
+}
+
+main p,
+main li {
+  font-size: 15px;
+  color: var(--ink);
+}
+
+main h2 {
+  margin: 36px 0 10px;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+main h3 {
+  margin: 22px 0 8px;
+  font-size: 15px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+main ul,
+main ol {
+  padding-left: 1.3em;
+}
+
+main li + li {
+  margin-top: 6px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 14px 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-elev);
+}
+
+.table-scroll table {
+  min-width: 480px;
+  font-size: 14px;
+}
+
+.table-scroll table.prose {
+  min-width: 680px;
+}
+
+.table-scroll th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--bg-elev);
+}
+
+.table-scroll caption {
+  caption-side: bottom;
+  text-align: left;
+  padding: 8px 12px 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.table-scroll th,
+.table-scroll td {
+  padding: 10px 12px;
+  vertical-align: top;
+}
+
+.table-scroll td:first-child,
+.table-scroll th:first-child {
+  text-align: left;
+}
+
+.table-scroll table.prose th,
+.table-scroll table.prose td {
+  text-align: left;
+}
+
+.callout {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 16px 0;
+}
+
+.callout p:first-child {
+  margin-top: 0;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.callout ol {
+  margin: 8px 0 0;
+}
+
+.calc-link {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  background: rgba(232, 214, 165, 0.06);
+}
+
+.calc-link:hover {
+  background: rgba(232, 214, 165, 0.14);
+}
+
+.faq dt {
+  margin-top: 18px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.faq dd {
+  margin: 6px 0 0;
+}
+
+.article-wrap footer.notes {
+  font-size: 13px;
+}
+
+.article-wrap footer.notes h2 {
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 640px) {
+  .article-wrap {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .table-scroll table {
+    font-size: 13px;
+  }
+
+  main p,
+  main li {
+    font-size: 15px;
+  }
+}
