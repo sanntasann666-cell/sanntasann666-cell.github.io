@@ -2,16 +2,16 @@
 /**
  * SANTA 手取り計算 — fee formulas and comparison.
  * All amounts are integer yen. Calculations run locally; no network.
- * Checked against official help pages on 2026-11-19 (JST).
+ * Checked against official help pages on 2026-11-20 (JST).
  */
-const CHECKED = "2026-11-19";
+const CHECKED = "2026-11-20";
 
 const SOURCES = [
   {
     id: "mercari",
     title: "メルカリ「メルカリの手数料」",
     url: "https://help.jp.mercari.com/guide/articles/65/",
-    note: "販売価格の10%。出品料は無料。振込手数料は一律200円（計算の初期値には含めない）。端数処理の公式記載なし → 切り捨て。",
+    note: "販売価格の10%。出品料は無料。振込手数料の概要は一律200円だが、公式「振込申請とは」ではメルカリバンクに登録したみんなの銀行口座への振込申請は無料。計算には振込手数料を含めない。端数処理の公式記載なし → 切り捨て。",
   },
   {
     id: "rakuma",
@@ -23,7 +23,7 @@ const SOURCES = [
     id: "yahoo-furima",
     title: "Yahoo!フリマ「かんたん購入・出品ガイド」",
     url: "https://paypayfleamarket.yahoo.co.jp/guide/beginner/",
-    note: "公式は「販売価格の5%」。送料は出品者負担。端数の公式記載はない。本ツールは公開されている次の端数処理を使う: 税抜手数料 = 四捨五入(販売価格 × 4.54%)、消費税 = 切り捨て(税抜 × 10%)。取引画面の表示を優先すること。",
+    note: "公表の販売手数料は販売価格の5%（税込）。1,000円ならこの5%の概算は50円。送料は出品者負担。端数の手順は公式にない。本ツールは税抜 = 四捨五入(販売価格 × 4.54%)、消費税 = 切り捨て(税抜 × 10%)で、1,000円は49円。49円は公表の5%そのものではなく端数の試算。取引画面の表示を優先すること。",
   },
   {
     id: "yahoo-auction",
